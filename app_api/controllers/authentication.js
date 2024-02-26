@@ -1,78 +1,65 @@
+//Tammy Hartline
+
+// Import necessary modules
 const passport = require('passport');
 const mongoose = require('mongoose');
-const User = mongoose.model('users');
 
-// Register a new user
-const register = (req, res) => {
+// Controller function for user registration
+const register = async (req, res) => {
+    // Validate required fields
     if (!req.body.name || !req.body.email || !req.body.password) {
-        return res
-            .status(400)
-            .json({ "message": "All fields are required" });
+        return res.status(400).json({'message': 'Name, email, and password are required'});
     }
 
-    // Create a new user
-    const user = new User();
-
-    // Set the user's credentials
+    // Create a new user instance
+    const user = new (mongoose.model('users'));
     user.name = req.body.name;
     user.email = req.body.email;
     user.setPassword(req.body.password);
 
-    // Save the user
-    user.save((err) => {
-
-        // Generate a JWT
-        if (err) {
-            res
-                .status(400)
-                .json(err);
-        }
-        // If the user is saved
-        else {
-            const token = user.generateJwt();
-            res
-                .status(200)
-                .json({ token });
-        }
-    })
+    try {
+        // Save the user to the database
+        await user.save();
+        
+        // Generate JWT token for the registered user
+        const token = user.generateJwt();
+        
+        // Return success response with the token
+        return res.status(200).json({token});
+    } catch (e) {
+        // Return error response if registration fails
+        return res.status(400).json(e);
+    }
 };
 
-// Log in a user
-const login = (req, res) => {
-
-    // Check if the email and password are provided
+// Controller function for user login
+const login = (req, res, next) => {
+    // Validate required fields
     if (!req.body.email || !req.body.password) {
-        return res
-            .status(400)
-            .json({ "message": "All fields are required" });
+        res.status(400).json({'message': 'Email and password are required'});
     }
 
-    // Authenticate the user
+    // Authenticate user using Passport local strategy
     passport.authenticate('local', (err, user, info) => {
-        // If Passport throws/catches an error
         if (err) {
-            return res
-                .status(404)
-                .json(err);
+            // Return error response if authentication fails
+            return res.status(400).json(err);
         }
-        // If a user is found
-        if (user) {
-            const token = user.generateJwt();
-            res
-                .status(200)
-                .json({ token });
+
+        if (!user) {
+            // Return unauthorized response if user not found
+            return res.status(401).json(info);
         }
-        // If user is not found
-        else {
-            res
-                .status(401)
-                .json(info);
-        }
-        // If a user is found
-    })(req, res);
+
+        // Generate JWT token for the authenticated user
+        const token = user.generateJwt();
+        
+        // Return success response with the token
+        return res.status(200).json({token});
+    })(req, res, next);
 };
 
-// Export the functions
+// Export the controller functions
 module.exports = {
     register,
     login
