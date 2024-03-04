@@ -1,24 +1,27 @@
-// Author: Tammy Hartline
-// February 18, 2024
-// CS-465 Full Stack Development SNHU
-// Final Term for BS C.S. with a concentration in Data Analysis
-// app.js
+# Travlr Getaways Full Stack Web Application
 
+## Architecture
 
-This JavaScript code is the main entry point for an Express.js application. Here's a breakdown of what it does:
+### Frontend Development:
+In this project, we utilized Express for server-side rendering, HTML for markup, JavaScript for client-side scripting, and implemented a Single Page Application (SPA) using Angular. Express provided a robust framework for server-side logic, while Angular facilitated the development of dynamic and responsive user interfaces.
 
-Module dependencies: The code begins by importing necessary modules using require(). These modules include http-errors for creating HTTP error objects, express for server operations, path for handling file and directory paths, cookie-parser for parsing cookie headers, morgan for HTTP request logging, and hbs for using Handlebars view engine.
+### Backend Development:
+The backend employed a NoSQL MongoDB database. MongoDB's flexibility in handling unstructured data and scalability made it a suitable choice for our application. The use of Mongoose as an Object Data Modeling (ODM) library streamlined interactions with the database.
 
-Router setup: The code imports router modules for different parts of the application (index, users, and travel).
+## Functionality
 
-Express app creation: An Express application instance is created by calling express().
+### JSON vs JavaScript:
+JSON (JavaScript Object Notation) is a lightweight data interchange format, distinct from JavaScript. JSON serves as a standardized format for data exchange between the frontend and backend, promoting interoperability.
 
-View engine setup: The code sets the views directory and registers Handlebars partials. It then sets the view engine to Handlebars.
+### Code Refactoring:
+Throughout the development process, we refactored code to enhance functionality and efficiency. Reusable User Interface (UI) components played a pivotal role in this, allowing us to modularize code, simplify maintenance, and accelerate future development.
 
-Middleware setup: The code uses various middleware functions. logger('dev') logs HTTP requests, express.json() parses incoming requests with JSON payloads, express.urlencoded({ extended: false }) parses incoming requests with URL-encoded payloads, cookieParser() parses cookie headers, and express.static(path.join(__dirname, 'public')) serves static files.
+## Testing
 
-Router usage: The code uses the imported routers, associating them with their respective paths.
+### API Testing:
+Testing involved various methods for API endpoints, ensuring they met functional requirements. Security testing was integrated to address vulnerabilities, and comprehensive endpoint testing was performed to validate data retrieval and manipulation.
 
-Error handling: The code includes middleware functions for handling 404 errors and other errors. If an error occurs, an error page is rendered.
+## Reflection
 
-Exporting the app: Finally, the Express application instance is exported for use in other modules.
+### Professional Growth:
+This course has significantly contributed to my professional growth. I've acquired skills in full-stack development, honed my ability to design robust architectures, and gained proficiency in using industry-standard tools. These skills have made me a more versatile and marketable candidate in the competitive field of web development.
